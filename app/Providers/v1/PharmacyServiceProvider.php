@@ -3,7 +3,7 @@
 namespace App\Providers\v1;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\v1\PharmacyService;
+
 
 class PharmacyServiceProvider extends ServiceProvider
 {

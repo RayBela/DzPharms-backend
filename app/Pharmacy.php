@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class pharmacy extends Model
 {
+    //protected $table = 'pharmacies';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
