@@ -43,7 +43,14 @@ class PharmacyController extends Controller
     {
         //call service
         //return data to client
-        $data = $this->pharmacies->getPharmacies();
+        //get paramaters from url
+
+        $latitude = 35.70025 ;
+        $longitude = -0.56576 ;
+
+        $parameters = request()->input();
+        //$data = $this->pharmacies->getPharmacies($parameters);
+        $data = $this->pharmacies->getNearestPharmacies($latitude,$longitude);
         return response()->json($data);
     }
 
