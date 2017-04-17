@@ -3,6 +3,8 @@
 namespace App\Services\v1;
 use App\Pharmacy;
 use DB;
+use App\Http\Controllers\v1\PharmacyController;
+
 
 /**
  * Class PharmacyService
@@ -74,7 +76,7 @@ class PharmacyService {
         $circle_radius = 3959;
         $max_distance = 20;
 
-        return $pharmacies = DB::select(
+        return $pharms = DB::select(
      'SELECT * FROM
                     (SELECT  pharmacy_id, name, latitude, longitude, (' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(latitude)) *
                     cos(radians(longitude) - radians(' . $lng . ')) +
@@ -83,7 +85,7 @@ class PharmacyService {
                     FROM pharmacies) AS distances
                 WHERE distance < ' . $max_distance . '
                 ORDER BY distance
-                LIMIT 10 OFFSET 0
+                LIMIT 20 OFFSET 0
                 
             ');
     }
@@ -99,5 +101,18 @@ class PharmacyService {
 
         return $clause;
     }
+
+    public function createPharmacy ($req){
+
+        //implement if a  pharmacy doesn't exist if($req->input('name'))
+
+        $pharmacy = new Pharmacy();
+        $pharmacy->description = $req->input('description');
+        $pharmacy->name = $req->input('name');
+        $pharmacy->phone_number = $req->input('phone_number');
+
+        // else show a error message
+    }
+
 
 }

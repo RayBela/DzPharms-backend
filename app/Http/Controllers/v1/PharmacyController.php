@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\v1\PharmacyService;
+use League\Flysystem\Exception;
 
 /**
  * Class PharmacyController
@@ -49,8 +50,7 @@ class PharmacyController extends Controller
         $longitude = -0.56576 ;
 
         $parameters = request()->input();
-        //$data = $this->pharmacies->getPharmacies($parameters);
-        $data = $this->pharmacies->getNearestPharmacies($latitude,$longitude);
+        $data = $this->pharmacies->getPharmacies($parameters);
         return response()->json($data);
     }
 
@@ -68,6 +68,20 @@ class PharmacyController extends Controller
     }
 
 
+    public function displayNearestPharms(Request $request){
+
+        try{
+            $lat = request()->input('latitude');
+            $lng = request()->input('longitude');
+
+            $data = $this->pharmacies->getNearestPharmacies($lat,$lng);
+            return response()->json($data);
+
+        } catch (Exception $exception) {
+            $exception->getMessage();
+        }
+
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -78,7 +92,14 @@ class PharmacyController extends Controller
 
     public function store(Request $request)
     {
-        //
+        /*try{
+
+
+
+        } catch (Exception $exception) {
+            $exception->getMessage();
+        }*/
+
     }
 
 
