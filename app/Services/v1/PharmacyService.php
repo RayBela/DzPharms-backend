@@ -3,7 +3,6 @@
 namespace App\Services\v1;
 use App\Pharmacy;
 use DB;
-use App\Http\Controllers\v1\PharmacyController;
 
 
 /**

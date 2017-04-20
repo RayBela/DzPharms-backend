@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\v1\PharmacyController;
-
+use app\Http\Controllers;
 
 
 
@@ -20,7 +19,8 @@ use App\Http\Controllers\v1\PharmacyController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/v1/nearPharmacies', 'PharmacyController@displayNearestPharms');
+
+Route::post('/v1/nearPharmacies', 'v1\PharmacyController@displayNearestPharms');
 Route::resource('/v1/pharmacies',v1\PharmacyController::class, [
     'except' => ['create', 'edit']
 ]);
