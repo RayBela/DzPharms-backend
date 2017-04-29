@@ -21,6 +21,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/v1/nearPharmacies', 'v1\PharmacyController@displayNearestPharms');
+
+
 Route::resource('/v1/pharmacies',v1\PharmacyController::class, [
+    'except' => ['create', 'edit']
+]);
+
+Route::resource('/v1/favorites',v1\FavoriteController::class, [
+    'except' => ['create', 'edit']
+]);
+
+Route::resource('/v1/addresses',v1\AddressController::class, [
     'except' => ['create', 'edit']
 ]);

@@ -2,38 +2,22 @@
 
 namespace App\Http\Controllers\v1;
 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\v1\AddressService;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use League\Flysystem\Exception;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Services\v1\PharmacyService;
-
-/**
- * Class PharmacyController
- * @package App\Http\Controllers\v1
- *
- */
-
-class PharmacyController extends Controller
+class AddressController extends Controller
 {
 
-    protected $pharmacies;
 
+    protected $addresses;
 
-
-    /**
-     * PharmacyController constructor.
-     * @param PharmacyService $service
-     *
-     */
-
-    public function __construct(PharmacyService $service) {
-        $this->pharmacies = $service ;
+    public function __construct(AddressService $service){
+        $this->addresses = $service;
     }
-
 
 
     /**
@@ -41,46 +25,24 @@ class PharmacyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        //call service
-        //return data to client
-        //get paramaters from url
 
         $parameters = request()->input();
-        $data = $this->pharmacies->getPharmacies($parameters);
+        $data = $this->addresses->getAddresses($parameters);
+
         return response()->json($data);
+
     }
-
-
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
         //
-    }
-
-
-    public function displayNearestPharms(Request $request){
-
-        try{
-            $data = $request->json()->all();
-            $lat = $data['latitude'];
-            $lng = $data['longitude'];
-
-            $data = $this->pharmacies->getNearestPharmacies($lat,$lng);
-            return response()->json($data);
-
-        } catch (Exception $exception) {
-            $exception->getMessage();
-        }
-
     }
 
     /**
@@ -89,12 +51,11 @@ class PharmacyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function store(Request $request)
     {
         try{
-            $pharmacy = $this->pharmacies->createPharmacy($request);
-            return response()->json($pharmacy, 201);
+            $address = $this->addresses->createAddress($request);
+            return response()->json($address, 201);
 
         }catch (Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);
@@ -102,25 +63,18 @@ class PharmacyController extends Controller
 
     }
 
-
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function show($id)
     {
-        //call service
-        $data = $this->pharmacies->getPharmacy($id);
+
+        $data = $this->addresses->getAddress($id);
         return response()->json($data);
-
-
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -128,13 +82,10 @@ class PharmacyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function edit($id)
     {
         //
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -146,10 +97,9 @@ class PharmacyController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
         try{
-            $pharmacy = $this->pharmacies->updatePharmacy($request, $id);
-            return response()->json($pharmacy, 200);
+            $address = $this->addresses->updateAddress($request, $id);
+                return response()->json($address, 200);
 
         }
         catch (ModelNotFoundException $ex){
@@ -158,11 +108,7 @@ class PharmacyController extends Controller
         catch (Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);
         }
-
-
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -170,11 +116,10 @@ class PharmacyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function destroy($id)
     {
         try{
-            $pharmacy = $this->pharmacies->deletePharmacy($id);
+            $address = $this->addresses->deleteAddress($id);
             return response()->make('', 204);
 
         }
@@ -184,6 +129,5 @@ class PharmacyController extends Controller
         catch (Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);
         }
-
     }
 }

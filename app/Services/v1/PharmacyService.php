@@ -32,7 +32,6 @@ class PharmacyService {
 
             return $this->filterPharmacies($pharmacies);
 
-
         }
     }
 
@@ -109,9 +108,43 @@ class PharmacyService {
         $pharmacy->description = $req->input('description');
         $pharmacy->name = $req->input('name');
         $pharmacy->phone_number = $req->input('phone_number');
+        $pharmacy->pharmacy_address = $req->input('pharmacy_address');
+        $pharmacy->longitude = $req->input('longitude');
+        $pharmacy->latitude = $req->input('latitude');
+        $pharmacy->user_id = $req->input('user_id');
+
+        $pharmacy->save();
+
+        return $this->filterPharmacies($pharmacy);
 
         // else show a error message
     }
 
+
+    public function updatePharmacy ($req, $pharmacyId){
+
+        $pharmacy =  Pharmacy::where('pharmacy_id', $pharmacyId)->firstOrFail();
+
+        $pharmacy->description = $req->input('description');
+        $pharmacy->name = $req->input('name');
+        $pharmacy->phone_number = $req->input('phone_number');
+        $pharmacy->pharmacy_address = $req->input('pharmacy_address');
+        $pharmacy->longitude = $req->input('longitude');
+        $pharmacy->latitude = $req->input('latitude');
+        $pharmacy->user_id = $req->input('user_id');
+
+        $pharmacy->save();
+
+        return $this->filterPharmacies($pharmacy);
+
+    }
+
+    public function deletePharmacy ($pharmacyId){
+
+        $pharmacy =  Pharmacy::where('pharmacy_id', $pharmacyId)->firstOrFail();
+
+        $pharmacy->delete();
+
+    }
 
 }
