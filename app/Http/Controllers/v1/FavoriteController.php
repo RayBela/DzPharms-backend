@@ -17,6 +17,8 @@ class FavoriteController extends Controller
 
     public function __construct(FavoritesService $service){
         $this->favorites = $service;
+
+        $this->middleware('auth:api' , ['only' =>['store','update','destroy'] ]);
     }
     /**
      * Display a listing of the resource.

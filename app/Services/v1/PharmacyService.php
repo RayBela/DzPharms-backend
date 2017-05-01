@@ -3,6 +3,7 @@
 namespace App\Services\v1;
 use App\Pharmacy;
 use DB;
+use Validator;
 
 
 /**
@@ -18,6 +19,22 @@ class PharmacyService {
         'latitude',
         'longitude'
     ];
+
+    protected $rules = [
+        'name' => 'required',
+        'pharmacy_address' => 'required',
+        'longitude' => 'required|decimal',
+        'latitude' => 'required|decimal'
+
+    ];
+
+
+    public function validate($pharmacy){
+
+        $validator = Validator::make($pharmacy, $this->rules);
+
+        $validator->validate();
+    }
 
     /**
      * @return array

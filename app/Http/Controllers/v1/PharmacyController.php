@@ -32,6 +32,8 @@ class PharmacyController extends Controller
 
     public function __construct(PharmacyService $service) {
         $this->pharmacies = $service ;
+
+        $this->middleware('auth:api' , ['only' =>['store','update','destroy'] ]);
     }
 
 
@@ -44,9 +46,10 @@ class PharmacyController extends Controller
 
     public function index()
     {
+
+        //get paramaters from url
         //call service
         //return data to client
-        //get paramaters from url
 
         $parameters = request()->input();
         $data = $this->pharmacies->getPharmacies($parameters);
@@ -92,6 +95,8 @@ class PharmacyController extends Controller
 
     public function store(Request $request)
     {
+
+        $this->pharmacies->validate($request->all());
         try{
             $pharmacy = $this->pharmacies->createPharmacy($request);
             return response()->json($pharmacy, 201);
@@ -147,6 +152,7 @@ class PharmacyController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->pharmacies->validate($request->all());
         try{
             $pharmacy = $this->pharmacies->updatePharmacy($request, $id);
             return response()->json($pharmacy, 200);

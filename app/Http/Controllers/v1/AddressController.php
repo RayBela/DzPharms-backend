@@ -17,6 +17,8 @@ class AddressController extends Controller
 
     public function __construct(AddressService $service){
         $this->addresses = $service;
+
+        $this->middleware('auth:api' , ['only' =>['store','update','destroy'] ]);
     }
 
 
